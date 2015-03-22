@@ -1,20 +1,19 @@
 /* global snakemodel */
-var snake = (function () {
+var snake = (function (w,h) {
    "use strict";
-   var m = snakemodel;
-   m.init();
+   var m = snakemodel(w,h);
    return {
-      dump: m.dump,
       play: m.play,
-      handleEvent: function (e) {
+      handleEvents: function (e) {
          var handlermap = {
-            k38: m.up,
-            k40: m.down,
-            k37: m.left,
-            k39: m.right
+            '38': m.upup,
+            '40': m.down,
+            '37': m.left,
+            '39': m.right,
+            '32': m.togglePause // space
          };
-         var h = handlermap['k' + e.keyCode];
+         var h = handlermap[e.keyCode];
          if( h!==undefined ) h();
       }
    };
-}());
+}(30,20));

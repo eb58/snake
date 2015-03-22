@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -8,13 +7,15 @@
       <script src="js/vendor/jquery-1.9.1.min.js"></script>
       <script src="js/vendor/underscore.js"></script>
       <script src="js/vendor/raphael-min.js"></script>
+      <script src="js/smath.js"></script>
       <script src="js/snakemodel.js"></script>
-      <script src="js/snake.js"></script>
    </head>
    <body id="target">
+      <script src="js/snakeview.js"></script>
+      <script src="js/snake.js"></script>
       <script>
-         snake.dump();
-         $("#target").keydown(snake.handleEvent);
+         /* global snake */
+         $("#target").keydown(snake.handleEvents);
          snake.play();
       </script>
    </body>
