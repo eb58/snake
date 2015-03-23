@@ -7,16 +7,15 @@
       <script src="js/vendor/jquery-1.9.1.min.js"></script>
       <script src="js/vendor/underscore.js"></script>
       <script src="js/vendor/raphael-min.js"></script>
-      <script src="js/smath.js"></script>
-      <script src="js/snakemodel.js"></script>
    </head>
    <body id="target">
+      <script src="js/smath.js"></script>
+      <script src="js/snakemodel.js"></script>
       <script src="js/snakeview.js"></script>
       <script src="js/snake.js"></script>
       <script>
          /* global snake */
-         $("#target").keydown(snake.handleEvents);
-         snake.play();
+         snake.play("#target");
       </script>
    </body>
 </html>

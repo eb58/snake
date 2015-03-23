@@ -3,12 +3,14 @@
 var snakemodel = function (w, h) {
    "use strict";
    var view = snakeview(w, h),
-      field = smath.rect(0, 0, w, h),
-      delay = 120, // millisec
+      playground = smath.rect(0, 0, w, h),
+      delay = 150, // millisec
       pause = false,
       vec = {dx: -1, dy: 0};
+   var snake = initSnake(10);  
+   var fruit = setFruit();
 
-   var snake = function (len) {
+   function initSnake(len) {
       var start = smath.randomPoint(smath.rect(2, 2, w - 2 * len, h - 1));
       start.x += len;
       var ret = _.range(len).map(function (v) {
@@ -16,7 +18,7 @@ var snakemodel = function (w, h) {
       });
       ret.feed = 0;
       return ret;
-   }(10);
+   };
 
    function setFruit() {
       while (true) {
@@ -24,7 +26,6 @@ var snakemodel = function (w, h) {
          if (!hasCollisionPoint(snake, fruit)) return fruit;
       }
    }
-   var fruit = setFruit();
 
    function setDirection(dx, dy) {
       return function () {
@@ -35,8 +36,12 @@ var snakemodel = function (w, h) {
       };
    }
 
+   function togglePause() {
+      pause = !pause;
+   }
+
    function hasBorderCollision(snake) {
-      return !smath.pointInRect(snake[0], field);
+      return !smath.pointInRect(snake[0], playground);
    }
 
    function hasCollisionPoint(snake, p) {
@@ -69,17 +74,31 @@ var snakemodel = function (w, h) {
          snake.feed = 0;
       }
    }
+   function init(id) {
+      $(id).keydown(function (e) {
+         var handlermap = {
+            '32': togglePause, // space
+            '37': setDirection(-1, 0), // right
+            '38': setDirection(0, -1), // down
+            '39': setDirection(+1, 0), // left
+            '40': setDirection(0, +1) // up
+         };
+         var h = handlermap[e.keyCode];
+         if (h !== undefined) h();
+      });
+   }
 
-   function play() {
-      var id = setInterval(
-         function () {//view.draw(snake);
+   function play(id) {
+      init(id);
+      var timerid = setInterval(
+         function () {
             if (pause) return;
             view.draw(snake);
             view.drawFruit(fruit);
             update();
             if (hasCollision(snake)) {
                view.draw(snake, true);
-               clearInterval(id);
+               clearInterval(timerid);
                return;
             }
             if (hasEaten(snake, fruit)) {
@@ -92,13 +111,6 @@ var snakemodel = function (w, h) {
    }
    // API 
    return {
-      upup: setDirection(0, -1),
-      down: setDirection(0, +1),
-      left: setDirection(-1, 0),
-      right: setDirection(+1, 0),
       play: play,
-      togglePause: function () {
-         pause = !pause;
-      },
    };
 };
