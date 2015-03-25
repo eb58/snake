@@ -7,7 +7,7 @@ var snakemodel = function (w, h) {
       delay = 150, // millisec
       pause = false,
       vec = {dx: -1, dy: 0};
-   var snake = initSnake(10);  
+   var snake = initSnake(10);
    var fruit = setFruit();
 
    function initSnake(len) {
@@ -18,26 +18,14 @@ var snakemodel = function (w, h) {
       });
       ret.feed = 0;
       return ret;
-   };
+   }
+   ;
 
    function setFruit() {
       while (true) {
          fruit = smath.randomPoint(smath.rect(1, 1, w - 1, h - 1));
          if (!hasCollisionPoint(snake, fruit)) return fruit;
       }
-   }
-
-   function setDirection(dx, dy) {
-      return function () {
-         pause = false;
-         if (vec.dx !== 0 && dx === -vec.dx) return;
-         if (vec.dy !== 0 && dy === -vec.dy) return;
-         vec = {dx: dx, dy: dy};
-      };
-   }
-
-   function togglePause() {
-      pause = !pause;
    }
 
    function hasBorderCollision(snake) {
@@ -62,18 +50,32 @@ var snakemodel = function (w, h) {
       return smath.sqrdist(snake[0], fruit) === 0;
    }
 
-   function update() {
+   function updateSnake() {
       var newhead = smath.point(snake[0].x + vec.dx, snake[0].y + vec.dy);
-      if (snake.feed !== 0) {
+      if (snake.feed !== 0 ) {
          var feed = snake.feed - 1;
          snake = [newhead].concat(snake);
-         snake.feed = feed;
+         snake.feed =  feed;
       }
       else {
          snake = [newhead].concat(_.initial(snake));
          snake.feed = 0;
       }
    }
+
+   function setDirection(dx, dy) {
+      return function () {
+         pause = false;
+         if (vec.dx !== 0 && dx === -vec.dx) return;
+         if (vec.dy !== 0 && dy === -vec.dy) return;
+         vec = {dx: dx, dy: dy};
+      };
+   }
+
+   function togglePause() {
+      pause = !pause;
+   }
+
    function init(id) {
       $(id).keydown(function (e) {
          var handlermap = {
@@ -83,8 +85,8 @@ var snakemodel = function (w, h) {
             '39': setDirection(+1, 0), // left
             '40': setDirection(0, +1) // up
          };
-         var h = handlermap[e.keyCode];
-         if (h !== undefined) h();
+         var handler = handlermap[e.keyCode];
+         if (handler !== undefined) handler();
       });
    }
 
@@ -95,7 +97,7 @@ var snakemodel = function (w, h) {
             if (pause) return;
             view.draw(snake);
             view.drawFruit(fruit);
-            update();
+            updateSnake();
             if (hasCollision(snake)) {
                view.draw(snake, true);
                clearInterval(timerid);
