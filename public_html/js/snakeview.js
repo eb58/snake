@@ -13,10 +13,10 @@ var snakeview = function (w, h) {
    paper.rect(0, 0, w * scale, h * scale).attr({fill: col.background, stroke: col.backgroundFrame, 'stroke-width': 8});
 
    function draw(snake, hit) {
-      var head = snake[0];
-      var tail = snake[snake.length - 1];
+      var head = snake.getArr()[0];
+      var tail = snake.getArr()[snake.getArr().length - 1];
       paper.circle(tail.x * scale, tail.y * scale, 4).attr({fill: col.background, stroke: col.background, 'stroke-width': 4});
-      _.initial(snake).map(function (v) {
+      _.initial(snake.getArr()).map(function (v) {
          paper.circle(v.x * scale, v.y * scale, 3).attr({fill: col.snake, stroke: col.snake, 'stroke-width': 3});
       });
       if (hit) {
@@ -29,6 +29,6 @@ var snakeview = function (w, h) {
 
    return {
       draw: draw,
-      drawFruit: drawFruit,
+      drawFruit: drawFruit
    };
 };
