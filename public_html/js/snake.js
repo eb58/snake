@@ -54,7 +54,7 @@ var snake = function (w, h, len) {
       hasCollisionPoint: hasCollisionPoint,
       hasCollision: hasCollision,
       hasEaten: hasEaten,
-      getArr: function getArr() {
+      getArr: function () {
          return arr;
       }
    };
