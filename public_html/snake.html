@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>S N A K E</title>
-      <meta name="description" content="Snake">
-      <script src="js/vendor/jquery-1.9.1.min.js"></script>
-      <script src="js/vendor/underscore.js"></script>
-      <script src="js/vendor/raphael-min.js"></script>
-   </head>
-   <body id="target">
-      <script src="js/smath.js"></script>
-      <script src="js/snake.js"></script>
-      <script src="js/snakegame.js"></script>
-      <script src="js/snakeview.js"></script>
-      <script>
-         /* global snake */
-         snakegame(30,20).play("#target");
-      </script>
-   </body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>S N A K E</title>
+  <meta name="description" content="Snake">
+  <script src="js/vendor/jquery-1.9.1.min.js"></script>
+  <script src="js/vendor/underscore.js"></script>
+  <script src="js/vendor/raphael-min.js"></script>
+  <script src="js/smath.js"></script>
+  <script src="js/snake.js"></script>
+  <script src="js/snakegame.js"></script>
+  <script src="js/snakeview.js"></script>
+  <script>
+    /* global snake */
+    $(document).ready(function () {
+      snakegame(30, 20).play("#target");
+    });
+  </script>
+</head>
+<body id="target">
+</body>
 </html>
