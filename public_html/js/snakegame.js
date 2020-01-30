@@ -1,13 +1,12 @@
 /* global _, smath, snake */
 const snakegame = function (w, h) {
-  "use strict";
   let
-          fruit,
-          delay = 150, // millisec
-          pause = false,
-          vec = {dx: -1, dy: 0},
-          snak = snake(w, h, 10),
-          view = snakeview(w, h);
+     fruit,
+     delay = 150, // millisec
+     pause = false,
+     vec = {dx: -1, dy: 0},
+     snak = snake(w, h, 10),
+     view = snakeview(w, h);
 
   const setFruit = () => {
     while (true) {
@@ -19,36 +18,35 @@ const snakegame = function (w, h) {
 
   const togglePause = () => pause = !pause;
   const setDelay = ms => delay = ms;
-  const setDirection = (dx, dy) => {
-    return function () {
-      pause = false;
-      if (vec.dx !== 0 && dx === -vec.dx)
-        return;
-      if (vec.dy !== 0 && dy === -vec.dy)
-        return;
-      vec = {dx: dx, dy: dy};
-    };
-  }
+  const setDirection = (dx, dy) => () => {
+    pause = false;
+    if (vec.dx !== 0 && dx === -vec.dx)
+      return;
+    if (vec.dy !== 0 && dy === -vec.dy)
+      return;
+    vec = {dx, dy};
+  };
+ 
 
-  const init = (id) => {
+  const init = id => {
     fruit = setFruit();
-    $(id).keydown(function (e) {
-      var handlermap = {
+    $(id).keydown(e => {
+      const handlermap = {
         '32': togglePause, // space
         '37': setDirection(-1, 0), // right
         '38': setDirection(0, -1), // down
         '39': setDirection(+1, 0), // left
         '40': setDirection(0, +1) // up
       };
-      var handler = handlermap[e.keyCode];
+      const handler = handlermap[e.keyCode];
       if (handler !== undefined)
         handler();
     });
   }
 
-  const play = (id) => {
+  const play = id => {
     init(id);
-    var timerid = setInterval(function () {
+    const timerid = setInterval( () => {
       if (pause)
         return;
       view.draw(snak);
@@ -65,7 +63,7 @@ const snakegame = function (w, h) {
       }
       view.draw(snak);
     },
-            delay);
+    delay);
   }
   // API 
   return {
