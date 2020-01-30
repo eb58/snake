@@ -1,20 +1,18 @@
 /* global snakegame, smath, _ */
-var snake = (w, h, len) => {
-   "use strict";
-   var
-      feed = 0,
-      arr = [];
+const snake = (w, h, len) => {
+   let feed = 0;
+   let arr = [];
 
    function init() {
-      var head = smath.randomPointInRect(smath.rect(w/4, 2, w - len, h - 2 ));
+      const head = smath.randomPointInRect(smath.rect(w/4, 2, w - len, h - 2 ));
       arr = _.range(len).map(function (v) {
          return {x: v + head.x, y: head.y};
       });
    }
 
    function update(vec) {
-      var head = arr[0];
-      var newhead = smath.point(head.x + vec.dx, head.y + vec.dy);
+      const head = arr[0];
+      const newhead = smath.point(head.x + vec.dx, head.y + vec.dy);
       arr = [newhead].concat(feed === 0 ? arr.slice(0, arr.length - 1) : arr);
       feed = Math.max(0, feed - 1);
    }
