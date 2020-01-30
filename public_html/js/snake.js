@@ -6,7 +6,7 @@ const snake = (w, h, len) => {
    function init() {
       const head = smath.randomPointInRect(smath.rect(w/4, 2, w - len, h - 2 ));
       arr = _.range(len).map(function (v) {
-         return {x: v + head.x, y: head.y};
+         return smath.point(v + head.x, head.y);
       });
    }
 
