@@ -1,31 +1,44 @@
 const snakeview = (w, h) => {
   const scale = 10;
-  const col = {
+  const COL = {
     background: '#aaa',
     backgroundFrame: '#000',
     snake: '#800',
+    snakehead: '#ee0',
     snakehit: '#f00',
     fruit: '#0f0'
   };
-  const paper = Raphael(10, 10, w * scale, h * scale);
-  paper.rect(0, 0, w * scale, h * scale).attr({fill: col.background, stroke: col.backgroundFrame, 'stroke-width': 8});
 
-  const drawSnake = (snake, hit) => {
-    const head = snake.getArr()[0];
-    const tail = snake.getArr()[snake.getArr().length - 1];
-    paper.circle(tail.x * scale, tail.y * scale, 4).attr({fill: col.background, stroke: col.background, 'stroke-width': 4});
-    _.initial(snake.getArr()).map(function (v) {
-      paper.circle(v.x * scale, v.y * scale, 3).attr({fill: col.snake, stroke: col.snake, 'stroke-width': 3});
-    });
-    if (hit) {
-      paper.circle(head.x * scale, head.y * scale, 3).attr({fill: col.snakehit, stroke: col.snakehit, 'stroke-width': 3});
-    }
+  const createAttr = (fill, stroke, width) => ({fill, stroke, 'stroke-width': width});
+
+  const attrFrame = createAttr(COL.background, COL.backgroundFrame, 8);
+  const attrBackground = createAttr(COL.background, COL.background, 3);
+  const attrSnake = createAttr(COL.snake, COL.snake, 3);
+  const attrSnakeHead = createAttr(COL.snakehead, COL.snakehead, 3);
+  const attrSnakeHit = createAttr(COL.snakehit, COL.snakehit, 3);
+  const attrFruit = createAttr(COL.fruit, COL.fruit, 3);
+
+  const paper = Raphael(10, 10, w * scale, h * scale);
+  paper.rect(0, 0, w * scale, h * scale).attr(attrFrame);
+
+  const drawSnake = (arr) => {
+    arr.map(v => paper.circle(v.x * scale, v.y * scale, 3).attr(attrSnake));
   }
 
-  const drawFruit = fruit => paper.circle(fruit.x * scale, fruit.y * scale, 3).attr({fill: col.fruit, stroke: col.fruit, 'stroke-width': 3});
+  const redrawSnake = (arrOld, arrNew, hit) => {
+    //whipe out last segment of snake
+    const tailOld = arrOld[arrOld.length-1];
+    paper.circle(tailOld.x * scale, tailOld.y * scale, 4).attr(attrBackground);
+
+    // draw new Head
+    paper.circle(arrNew[0].x * scale, arrNew[0].y * scale, 3).attr(hit?attrSnakeHit:attrSnake);
+  }
+
+  const drawFruit = fruit => paper.circle(fruit.x * scale, fruit.y * scale, 3).attr(attrFruit);
 
   return {
     drawSnake,
+    redrawSnake,
     drawFruit
   };
 };
