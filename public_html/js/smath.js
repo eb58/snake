@@ -8,4 +8,3 @@ var smath = {
   randomVal: (min,max) => Math.floor(min  + Math.random() * max ),
   randomPointInRect: rect => smath.point(smath.randomVal(rect.x + 1, rect.w - rect.x - 1),smath.randomVal(rect.y + 1, rect.h - rect.y - 1) ),
 };
-
