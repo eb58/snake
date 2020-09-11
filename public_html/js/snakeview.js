@@ -20,13 +20,12 @@ const snakeView = (w, h) => {
   const paper = Raphael(10, 10, w * scale, h * scale);
   paper.rect(0, 0, w * scale, h * scale).attr(attrFrame);
 
-  const drawFruit = fruit => paper.circle(fruit.x * scale, fruit.y * scale, 3).attr(attrFruit);
-  const drawSnake = (arr) => arr.map(v => paper.circle(v.x * scale, v.y * scale, 3).attr(attrSnake));
+  const drawFruit = (snake) => paper.circle(snake.fruit().x * scale, snake.fruit().y * scale, 3).attr(attrFruit);
+  const drawSnake = (snake) => snake.arr().map(v => paper.circle(v.x * scale, v.y * scale, 3).attr(attrSnake));
 
-  const redrawSnake = (arrOld, arrNew, hit) => {
-    const tailOld = arrOld[arrOld.length - 1];
-    paper.circle(tailOld.x * scale, tailOld.y * scale, 4).attr(attrBackground); //whipe out last segment of snake
-    paper.circle(arrNew[0].x * scale, arrNew[0].y * scale, 3).attr(hit ? attrSnakeHit : attrSnake);  // draw new Head
+  const redrawSnake = (snake, last, hit) => {
+    paper.circle(last.x * scale, last.y * scale, 4).attr(attrBackground); //whipe out last segment of snake
+    paper.circle(snake.head().x * scale, snake.head().y * scale, 3).attr(hit ? attrSnakeHit : attrSnake);  // draw new head
   }
 
   return {

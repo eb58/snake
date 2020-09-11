@@ -4,14 +4,14 @@ const snakeGame = (w, h) => {
 
   let delay = 150; // millisec
   let pause = false;
-  let directionVec = { dx: -1, dy: 0 };
+  let dirVec = { dx: -1, dy: 0 };
 
   const noop = () => { };
   const noPause = () => (pause = false);
   const togglePause = () => pause = !pause;
   const setDelay = ms => delay = ms;
-  const allowedDirection = (dx, dy) => !(directionVec.dx !== 0 && dx === -directionVec.dx) && !(directionVec.dy !== 0 && dy === -directionVec.dy)
-  const setDirection = (dx, dy) => () => { noPause(), directionVec = allowedDirection(dx, dy) ? { dx, dy } : directionVec };
+  const allowedDirection = (dx, dy) => !(dirVec.dx !== 0 && dx === -dirVec.dx) && !(dirVec.dy !== 0 && dy === -dirVec.dy)
+  const setDirection = (dx, dy) => () => { noPause(), dirVec = allowedDirection(dx, dy) ? { dx, dy } : dirVec };
 
   const handlermap = {
     32: togglePause, // space
@@ -25,26 +25,26 @@ const snakeGame = (w, h) => {
 
   const play = (id) => {
     init(id);
-    snakeVw.drawSnake(snake.getSnakeArr());
-    snakeVw.drawFruit(snake.getFruit());
+    snakeVw.drawSnake(snake);
+    snakeVw.drawFruit(snake);
 
     const timerid = setInterval(() => {
       if (pause)
         return;
-      const oldArr = snake.updateSnake(directionVec);
+      const last = snake.updateSnake(dirVec);
       if (snake.hasCollision()) {
-        snakeVw.redrawSnake(oldArr, snake.getSnakeArr(), true);
+        snakeVw.redrawSnake( snake, last, true);
         clearInterval(timerid);
         return;
       }
       if (snake.hasEatenFruit()) {
         snake.doFeed(5);
-        snakeVw.drawFruit(snake.getFruit());
+        snakeVw.drawFruit(snake);
       }
-      snakeVw.redrawSnake(oldArr, snake.getSnakeArr(), false);
+      snakeVw.redrawSnake(snake, last, false);
     }, delay);
   }
-  // API 
+
   return {
     play,
     setDelay,
